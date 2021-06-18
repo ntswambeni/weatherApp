@@ -1,12 +1,18 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Fragment } from 'react';
+import Navbar from './components/navbar/Navbar';
+import {ThemeProvider} from 'styled-components';
+import GlobalStyle from './util/GlobalStyle';
+import theme from './util/theme';
+
 
 function App() {
   return (
-    <div className="App">
-      hello world
-    </div>
+    <Fragment>
+      <GlobalStyle />
+      <ThemeProvider theme={theme}>
+        <Navbar/>
+      </ThemeProvider>
+    </Fragment>
   );
 }
 
