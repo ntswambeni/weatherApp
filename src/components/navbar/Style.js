@@ -15,6 +15,7 @@ h1{
     font-size: 2.5rem;  
     padding: 0.7rem;
 }
+
 @media only screen and (min-width:768px){
     display: flex;
     align-items: center;

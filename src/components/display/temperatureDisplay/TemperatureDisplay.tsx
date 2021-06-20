@@ -5,16 +5,19 @@ import TemperatureContainer from './Style';
 interface Temperature{
     temperature: number;
     icon?: string;
+    min: number;
+    max: number;
 }
 
-const TemperatureDisplay: React.FC<Temperature> = ({temperature, icon}) => {
+const TemperatureDisplay: React.FC<Temperature> = ({temperature, icon, max, min}) => {
     
     return (
         <TemperatureContainer>
-            <p>
-                {temperature}&#176;C
-            </p>
-            <div>{icon}</div>
+            <div>
+                <p>{temperature}&#176;C</p> 
+                <p>{`${min}`}&#176;C min/{`${max}`}&#176;C MAX</p>
+            </div>
+            <img alt="weather icon" src={`http://openweathermap.org/img/wn/${icon}.png`}/>
         </TemperatureContainer>
     )
 }

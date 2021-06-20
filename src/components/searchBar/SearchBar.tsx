@@ -7,12 +7,18 @@ import {
 import * as Yup from 'yup';
 import SearchContainer from './Style';
 
+// value types of the component props
+interface PropValues {
+  getTodayWeather: any;
+  getForecast: any;
+}
+
 // value types of the form fields
 interface FormValues {
   city: string;
 }
 
-const SearchBar: React.FC<{}> = () => {
+const SearchBar: React.FC<PropValues> = ({getTodayWeather, getForecast}) => {
   // validation schema for city name
   const citySchema = Yup.object().shape({
     city: Yup.string()
@@ -29,10 +35,12 @@ const SearchBar: React.FC<{}> = () => {
         validationSchema={citySchema}
         initialValues={initialValues}
         onSubmit={(values, actions) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            actions.setSubmitting(false);
-          }, 1000);
+          getTodayWeather(values.city);
+          getForecast(values.city);
+          // setTimeout(() => {
+          //   alert(JSON.stringify(values, null, 2));
+          //   actions.setSubmitting(false);
+          // }, 1000);
         }}
       >
         {props => (

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Switch} from '@material-ui/core';
 import NavbarContainer from './Style';
 const Navbar: React.FC = () => {
