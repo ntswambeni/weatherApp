@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Switch} from '@material-ui/core';
-import NavbarWraper from './Style';
+import NavbarContainer from './Style';
 const Navbar: React.FC = () => {
     
     // State management for switch controled component
@@ -15,7 +15,7 @@ const Navbar: React.FC = () => {
     };
 
     return (
-        <NavbarWraper>
+        <NavbarContainer>
             <h1>gt-ur-weda</h1>
             <div>
                 <label>&#176;C</label>
@@ -28,7 +28,7 @@ const Navbar: React.FC = () => {
                     />
                 <label>&#176;F</label>  
             </div>
-        </NavbarWraper>
+        </NavbarContainer>
     )
 }
 

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 // CSS for Navbar component
-const NavbarWraper = styled.div`
+const NavbarContainer = styled.div`
 background-color: ${({theme})=>{
     return theme.colors.primary;
 }};
@@ -24,4 +24,4 @@ h1{
 }
 `;
 
-export default NavbarWraper;
+export default NavbarContainer;

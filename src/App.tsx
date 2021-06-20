@@ -3,6 +3,7 @@ import Navbar from './components/navbar/Navbar';
 import {ThemeProvider} from 'styled-components';
 import GlobalStyle from './util/GlobalStyle';
 import theme from './util/theme';
+import SearchBar from './components/searchBar/SearchBar';
 
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
       <GlobalStyle />
       <ThemeProvider theme={theme}>
         <Navbar/>
+        <SearchBar/>
       </ThemeProvider>
     </Fragment>
   );
