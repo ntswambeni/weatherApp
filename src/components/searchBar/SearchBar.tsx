@@ -43,7 +43,7 @@ const SearchBar: React.FC<{}> = () => {
                 name="city"
                 placeholder="type the name of the city"
               />
-              <button type="submit">go</button>
+              <button type="submit">go</button>             
             </div>
             {props.errors.city && <div id="feedback">{props.errors.city}</div>}
           </Form>
