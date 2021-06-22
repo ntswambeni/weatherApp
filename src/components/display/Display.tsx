@@ -10,12 +10,12 @@ interface DisplayTypes{
     min: number;
     max: number;
     today?:string;
+    unit:string;
 }
-const Display: React.FC<DisplayTypes> = ({date, temperature, icon, min, max, today}) => {
-    
+const Display: React.FC<DisplayTypes> = ({date, temperature, icon, min, max, today, unit}) => {  
     return (
         <DisplayContainer>
-            <TemperatureDisplay temperature={temperature} min={min} max={max} icon={icon}/>
+            <TemperatureDisplay temperature={temperature} min={min} max={max} icon={icon} unit={unit && unit}/>
             <DateDisplay date={date} today={today}/>
         </DisplayContainer>
     )

@@ -1,6 +1,7 @@
 import {
   GET_CURRENT_WEATHER_BY_CITY_NAME,
   GET_WHEATHER_FORECAST_FOR_FOUR_DAYS,
+  CHANGE_UNIT,
   SET_LOADING,
   SET_OFF_LOADING
 } from "../types";
@@ -17,6 +18,12 @@ const WeatherReducer = (state, action) => {
       return {
         ...state,
         fourDaysForecast: action.payload,
+        loading: false
+      };  
+    case CHANGE_UNIT:
+      return {
+        ...state,
+        unit: action.payload,
         loading: false
       };  
     case SET_LOADING:

@@ -6,7 +6,7 @@ const MapContainer = styled.div`
             return theme.fonts.primary;
         }};
     width: 100%;
-    height: calc(100vh + 405px);
+    height: calc(100vh + 250px);
     position: fixed;
     top:0;
 

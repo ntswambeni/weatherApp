@@ -1,7 +1,14 @@
 import React from 'react';
 import {Switch} from '@material-ui/core';
 import NavbarContainer from './Style';
-const Navbar: React.FC = () => {
+
+interface NavbarProps{
+    unit:{name: string, IS: string};
+    city: string;
+    changeUnit: any;
+}
+
+const Navbar: React.FC<NavbarProps> = ({unit, city, changeUnit}) => {
     
     // State management for switch controled component
     const [state, setState] = React.useState({
@@ -10,8 +17,15 @@ const Navbar: React.FC = () => {
 
     // Event handler for changes in switch component  
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-
+        
         setState({ ...state, [event.target.name]: event.target.checked });
+        
+        if(state.unit === false){
+            changeUnit({name:"imperial", IS:"F"}, city)
+            
+        }else{
+            changeUnit({name:"metric", IS:"C"}, city)
+        }
     };
 
     return (

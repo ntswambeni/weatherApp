@@ -7,15 +7,16 @@ interface Temperature{
     icon?: string;
     min: number;
     max: number;
+    unit: string;
 }
 
-const TemperatureDisplay: React.FC<Temperature> = ({temperature, icon, max, min}) => {
+const TemperatureDisplay: React.FC<Temperature> = ({temperature, icon, max, min, unit}) => {
     
     return (
         <TemperatureContainer>
             <div>
-                <p>{temperature}&#176;C</p> 
-                <p>{`${min}`}&#176;C min/{`${max}`}&#176;C MAX</p>
+                <p>{temperature}&#176;{unit && unit}</p> 
+                <p>{`${min}`}&#176;{unit && unit} min/{`${max}`}&#176;{unit && unit} MAX</p>
             </div>
             <img alt="weather icon" src={`http://openweathermap.org/img/wn/${icon}.png`}/>
         </TemperatureContainer>

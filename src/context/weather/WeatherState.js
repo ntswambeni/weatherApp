@@ -1,18 +1,21 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useContext } from "react";
 import axios from "axios";
 import WeatherContext from "./weatherContext";
 import weatherReducer from "./weatherReducer";
 import {
   GET_CURRENT_WEATHER_BY_CITY_NAME,
   GET_WHEATHER_FORECAST_FOR_FOUR_DAYS,
+  CHANGE_UNIT,
   SET_LOADING,
   SET_OFF_LOADING
 } from "../types";
+import AlertContext from "../alert/alertContext";
 
 const WeatherState = (props) => {
 
   const initialState = { todaysWeather: {}, fourDaysForecast: [], loading: false, unit:{name:"metric", IS:"C"} };
   const [state, dispatch] = useReducer(weatherReducer, initialState);
+  const alertContext = useContext(AlertContext);
   const weatherMap = {
     key: "590114bd84db624b1f28ce90d5fd1a06",
     currentWeather: "https://api.openweathermap.org/data/2.5/weather",
@@ -39,7 +42,11 @@ const WeatherState = (props) => {
         payload: payload,
       });
     } catch (err) {
-      console.log(err);
+      console.log(err.response.data.message);
+      alertContext.setAlert(
+        `${err.response.data.message}`,
+        "5000"
+      );
       setOffLoading();
     }
   };
@@ -66,11 +73,22 @@ const WeatherState = (props) => {
         payload: payload,
       });
     } catch (err) {
-      console.log(err);
+      console.log(err.response.data.message);
       setOffLoading();
     }
   };
 
+  // change weather unit
+  const changeUnit = async (unit, city) => {
+      dispatch({
+        type: CHANGE_UNIT,
+        payload: unit,
+      });
+      if(city !== undefined){
+        getCurrentsWeather(unit.name, city);
+        getWeatherForecast(unit.name, city);
+      }
+  };
 
   const setLoading = () => dispatch({ type: SET_LOADING });
 
@@ -86,7 +104,8 @@ const WeatherState = (props) => {
         setLoading,
         setOffLoading,
         getCurrentsWeather,
-        getWeatherForecast
+        getWeatherForecast,
+        changeUnit
       }}
     >
       {props.children}
