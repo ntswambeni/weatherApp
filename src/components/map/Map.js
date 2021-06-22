@@ -1,24 +1,28 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import GoogleMapReact from 'google-map-react';
 import MapContainer from './Style';
 
 
-const Map= ({lat, lng}) => {
+
+const Map= ({lat=-25.9653, lng=32.5892}) => {
 
     const key = "AIzaSyDgeWyRR6rHBXI4KprMMk6BKIOELTLMZV4";
+    
+    useEffect(() => {
+
+    }, [lat, lng])
     
     return (
         <MapContainer>
             <div style={{ height: '100%', width: '100%' }}>
         <GoogleMapReact
           bootstrapURLKeys={{ key: key}}
-          defaultCenter={{
+          center={{
             lat: lat,
             lng: lng
          }}
-          defaultZoom={9}
+          zoom={12}
         >
- 
         </GoogleMapReact>
       </div>
         </MapContainer>

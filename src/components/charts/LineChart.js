@@ -5,25 +5,36 @@ import moment from 'moment';
 
 
 const LineChart = ({todayWeather, loading, fourDaysForecast}) => {
-  // // chart info state
-  // const [chartInfo, setChartInfo] = useState([]);
-
-  // const buildChartInfo = ()=>{
-  //   const infoBuilder = [];
-  //   const chartItem = {}
-  //   chartItem.date = moment().format('MMM Do');
-  //   chartItem.temperature = todayWeather;
-  //   infoBuilder.push(chartItem)
-  //   for(var i = 0; i < fourDaysForecast.length; i++){
-  //     const chartItem = {}
-  //     chartItem.date = fourDaysForecast[i].date;
-  //     chartItem.temperature = fourDaysForecast[i].temperature;
-  //     infoBuilder.push(chartItem)
-  //   }
-  //   setChartInfo(infoBuilder);
-  // }
 
   const [chartInfo, setChartInfo] = useState({labels:[], data:[]});
+
+  // init chart data
+  const [lineData, setLineData] = useState({
+    labels: chartInfo.labels,
+    datasets: [
+      {
+
+        fill: false,
+        lineTension: 1,
+        backgroundColor: 'rgba(255, 23, 68,0.4)',
+        borderColor: 'rgba(255, 23, 68,1)',
+        borderCapStyle: 'butt',
+        borderDash: [],
+        borderDashOffset: 0.0,
+        borderJoinStyle: 'miter',
+        pointBorderColor: 'rgba(255, 23, 68,1)',
+        pointBackgroundColor: '#fff',
+        pointBorderWidth: 1,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: 'rgba(255, 23, 68,1)',
+        pointHoverBorderColor: 'rgba(220,220,220,1)',
+        pointHoverBorderWidth: 2,
+        pointRadius: 1,
+        pointHitRadius: 10,
+        data: chartInfo.data
+      }
+    ]
+  });
 
   useEffect(()=>{
 
@@ -83,39 +94,11 @@ const LineChart = ({todayWeather, loading, fourDaysForecast}) => {
         maintainAspectRatio: false,
       }
     )    
-  }, [todayWeather, fourDaysForecast])
+  }, [todayWeather, loading, fourDaysForecast, chartInfo])
     
    
 
-    // set data
     
-    const [lineData, setLineData] = useState({
-      labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho','Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
-      datasets: [
-        {
-
-          fill: false,
-          lineTension: 1,
-          backgroundColor: 'rgba(255, 23, 68,0.4)',
-          borderColor: 'rgba(255, 23, 68,1)',
-          borderCapStyle: 'butt',
-          borderDash: [],
-          borderDashOffset: 0.0,
-          borderJoinStyle: 'miter',
-          pointBorderColor: 'rgba(255, 23, 68,1)',
-          pointBackgroundColor: '#fff',
-          pointBorderWidth: 1,
-          pointHoverRadius: 5,
-          pointHoverBackgroundColor: 'rgba(255, 23, 68,1)',
-          pointHoverBorderColor: 'rgba(220,220,220,1)',
-          pointHoverBorderWidth: 2,
-          pointRadius: 1,
-          pointHitRadius: 10,
-          data: [1,1,1,1]
-        }
-      ]
-    });
-
     // set options
     const [lineOptions, setLineOptions] = useState({
 
