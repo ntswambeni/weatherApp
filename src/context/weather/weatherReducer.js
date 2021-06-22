@@ -1,52 +1,23 @@
 import {
-  GET_AREAS,
-  ADD_AREA,
-  DELETE_AREA,
-  UPDATE_AREA,
-  SET_CURRENT,
-  CLEAR_CURRENT,
+  GET_CURRENT_WEATHER_BY_CITY_NAME,
+  GET_WHEATHER_FORECAST_FOR_FOUR_DAYS,
   SET_LOADING,
-  SET_OFF_LOADING,
+  SET_OFF_LOADING
 } from "../types";
 
-export default (state, action) => {
+const WeatherReducer = (state, action) => {
   switch (action.type) {
-    case GET_AREAS:
+    case GET_CURRENT_WEATHER_BY_CITY_NAME:
       return {
         ...state,
-        areas: action.payload,
-        loading: false,
-      };
-    case ADD_AREA:
-      return {
-        ...state,
-        areas: [action.payload, ...state.areas],
-        loading: false,
-      };
-    case UPDATE_AREA:
-      return {
-        ...state,
-        areas: state.areas.map((area) =>
-        area.id === action.payload.id ? action.payload : area
-        ),
-        loading: false,
+        todaysWeather: action.payload,
+        loading: false
       };  
-    case   DELETE_AREA:
-      return  {
-          ...state,
-          areas: state.areas.filter(area=> 
-                  area.id !== action.payload
-              )
-      }    
-    case SET_CURRENT:
+    case GET_WHEATHER_FORECAST_FOR_FOUR_DAYS:
       return {
         ...state,
-        currentArea: action.payload,
-      };
-    case CLEAR_CURRENT:
-      return {
-        ...state,
-        currentArea: null,
+        fourDaysForecast: action.payload,
+        loading: false
       };  
     case SET_LOADING:
       return {
@@ -62,3 +33,5 @@ export default (state, action) => {
       return state;
   }
 };
+
+export default WeatherReducer;

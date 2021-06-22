@@ -1,125 +1,72 @@
-import React, { useReducer, useContext } from "react";
+import React, { useReducer } from "react";
 import axios from "axios";
-import AreaContext from "./weatherContext";
-import areaReducer from "./weatherReducer";
-import AlertContext from "../alert/alertContext";
+import WeatherContext from "./weatherContext";
+import weatherReducer from "./weatherReducer";
 import {
-  GET_AREAS,
-  ADD_AREA,
-  UPDATE_AREA,
-  DELETE_AREA,
-  SET_CURRENT,
-  CLEAR_CURRENT,
+  GET_CURRENT_WEATHER_BY_CITY_NAME,
+  GET_WHEATHER_FORECAST_FOR_FOUR_DAYS,
   SET_LOADING,
-  SET_OFF_LOADING,
-  
+  SET_OFF_LOADING
 } from "../types";
 
-const AreaState = (props) => {
-  const alertContext = useContext(AlertContext);
-  const initialState = { areas: [], currentArea: null, loading: false };
-  const [state, dispatch] = useReducer(areaReducer, initialState);
+const WeatherState = (props) => {
 
-  // get area
-  const getAreas = async () => {
+  const initialState = { todaysWeather: {}, fourDaysForecast: [], loading: false, unit:{name:"metric", IS:"C"} };
+  const [state, dispatch] = useReducer(weatherReducer, initialState);
+  const weatherMap = {
+    key: "590114bd84db624b1f28ce90d5fd1a06",
+    currentWeather: "https://api.openweathermap.org/data/2.5/weather",
+    forecast:"https://api.openweathermap.org/data/2.5/forecast"
+  }
+
+  // get current weather from wheathermap api and dispach the results to the reducer
+  const getCurrentsWeather = async (unit="", city) => {
     try {
-      const res = await axios.get("http://localhost:3000/areas");
+      setLoading();
+      const res = await axios.get(`${weatherMap.currentWeather}?q=${city}&appid=${weatherMap.key}&units=${unit}`);
+      const payload = {
+        temperature: res.data.main.temp,
+        icon: res.data.weather[0].icon, 
+        city: res.data.name, 
+        country: res.data.sys.country,
+        min: res.data.main.temp_min,
+        max: res.data.main.temp_max,
+        lat:res.data.coord.lat,
+        lng:res.data.coord.lon
+      };
       dispatch({
-        type: GET_AREAS,
-        payload: res.data,
+        type: GET_CURRENT_WEATHER_BY_CITY_NAME,
+        payload: payload,
       });
     } catch (err) {
       console.log(err);
+      setOffLoading();
     }
   };
 
-  // add area
-  const addArea = async (data) => {
-    setLoading();
+
+  // get weather forecast for four days from wheathermap api and dispach the results to the reducer
+  const getWeatherForecast = async (unit="", city) => {
     try {
-      const res = await axios.post("http://localhost:3000/areas", data);
-      alertContext.setAlert(
-        `Área adicionada com sucesso`,
-        "success",
-        "3000"
-      );
+      setLoading();
+      const res = await axios.get(`${weatherMap.forecast}?q=${city}&appid=${weatherMap.key}&units=${unit}`);
+      const payload = [];
+      for(var i = 1; i <= 4; i++){
+        const forecast  = {
+          temperature: res.data.list[i*8].main.temp,
+          min:res.data.list[i*8].main.temp_min,
+          max:res.data.list[i*8].main.temp_max,
+          icon: res.data.list[i*8].weather[0].icon,
+          date: res.data.list[i*8].dt_txt,
+        }
+        payload.push(forecast)
+      } 
       dispatch({
-        type: ADD_AREA,
-        payload: res.data,
+        type: GET_WHEATHER_FORECAST_FOR_FOUR_DAYS,
+        payload: payload,
       });
     } catch (err) {
       console.log(err);
-      alertContext.setAlert(
-        `Não foi possível adicionar a área. Por favor tente novamente.`,
-        "error",
-        "3000"
-      );
-    }
-  };
-  // delete area
-  const deleteArea = async (id) => {
-    try {
-      await axios.delete(`http://localhost:3000/areas/${id}`);
-      alertContext.setAlert(
-        `Área ${id} apagada com sucesso`,
-        "success",
-        "3000"
-      );
-      dispatch({
-        type: DELETE_AREA,
-        payload: id,
-      });
-    } catch (err) {
-      console.log(err);
-      alertContext.setAlert(
-        `Não foi possível apagar a área ${id}. Por favor tente novamente.`,
-        "error",
-        "3000"
-      );
-    }
-  };
-  // update area
-
-  //Set current Area
-  const setCurrent = (area) => {
-    dispatch({
-      type: SET_CURRENT,
-      payload: area,
-    });
-  };
-
-  //Clear current Area
-  const clearCurrent = () => {
-    dispatch({
-      type: CLEAR_CURRENT,
-    });
-  };
-
-  //Update area
-  const updateArea = async (id, area) => {
-    setLoading();
-    try {
-      const res = await axios.patch(
-        `http://localhost:3000/areas/${id}`,
-        area
-      );
-      console.log(res.data);
-      alertContext.setAlert(
-        `Área ${id} actualizada com sucesso`,
-        "success",
-        "3000"
-      );
-      dispatch({
-        type: UPDATE_AREA,
-        payload: res.data,
-      });
-    } catch (err) {
-      console.log(err);
-      alertContext.setAlert(
-        `Não foi possível actualizar a área ${id}. Por favor tente novamente.`,
-        "error",
-        "3000"
-      );
       setOffLoading();
     }
   };
@@ -130,25 +77,21 @@ const AreaState = (props) => {
   const setOffLoading = () => dispatch({ type: SET_OFF_LOADING });
 
   return (
-    <AreaContext.Provider
+    <WeatherContext.Provider
       value={{
-        areas: state.areas,
+        todaysWeather: state.todaysWeather,
         loading: state.loading,
-        currentArea: state.currentArea,
-        addArea,
-        getAreas,
-        deleteArea,
+        fourDaysForecast: state.fourDaysForecast,
+        unit: state.unit,
         setLoading,
         setOffLoading,
-        updateArea,
-        clearCurrent,
-        setCurrent,
-
+        getCurrentsWeather,
+        getWeatherForecast
       }}
     >
       {props.children}
-    </AreaContext.Provider>
+    </WeatherContext.Provider>
   );
 };
 
-export default AreaState;
+export default WeatherState;
