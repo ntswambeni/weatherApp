@@ -5,6 +5,8 @@ const SearchContainer = styled.div`
     font-family: ${({theme})=>{
             return theme.fonts.primary;
         }};
+    position: relative;
+    z-index:1;
     div{
         width: 100%;
         display: flex;
@@ -14,6 +16,9 @@ const SearchContainer = styled.div`
             width: 100%;
             padding-right: 1rem;
             padding-left: 1rem;
+        }
+        input[type="text"]:focus{
+            outline: none;
         }
         button[type="submit"]{
             background-color:#F58A07 ;

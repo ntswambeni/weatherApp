@@ -7,7 +7,8 @@ background-color: ${({theme})=>{
 }};
 color:#fff;
 text-align: center;
-
+position: relative;
+z-index:1;
 h1{
     font-family: ${({theme})=>{
         return theme.fonts.script;

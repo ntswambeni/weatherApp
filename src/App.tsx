@@ -7,7 +7,9 @@ import SearchBar from './components/searchBar/SearchBar';
 import Display from './components/display/Display';
 import axios from 'axios';
 import WeatherChart from './components/charts/WeatherChart';
-
+import Map from './components/map/Map';
+import MainInfo from './Style';
+import CityName from './components/cityName/CityName';
 function App() {
   
   //Types for the forecast object 
@@ -28,7 +30,7 @@ function App() {
   const [unit, setUnit] = useState({name:"metric", IS:"C"})
 
   // controled variable for todays weather details
-  const [todayWeatherState, setTodayWeatherState] = useState({temperature:0, icon:"", city: "", country:"", min: 0, max: 0});
+  const [todayWeatherState, setTodayWeatherState] = useState({temperature:0, icon:"", city: "", country:"", min: 0, max: 0, lat:-25.9653, lng:32.5892});
 
   // Weather map api user details
   const weatherMap = {
@@ -43,13 +45,17 @@ function App() {
     try{
       setLoading(true);
       const res = await axios.get(`${weatherMap.todayWeather}?q=${city}&appid=${weatherMap.key}&units=${unit.name}`);         
+      console.log(res.data);
+      
       setTodayWeatherState({
         temperature: res.data.main.temp,
         icon: res.data.weather[0].icon, 
         city: res.data.name, 
         country: res.data.sys.country,
         min: res.data.main.temp_min,
-        max: res.data.main.temp_max
+        max: res.data.main.temp_max,
+        lat:res.data.coord.lat,
+        lng:res.data.coord.lon
       });  
       setLoading(false)
     }catch(err){
@@ -64,7 +70,6 @@ function App() {
       setLoading(true);
       const forecastStore: Array<ForecastTypes> = []
       const res = await axios.get(`${weatherMap.forecast}?q=${city}&appid=${weatherMap.key}&units=${unit.name}`);
-      console.log(res.data);
       
       for(var i = 1; i <= 4; i++){
         const forecast  = {
@@ -89,31 +94,37 @@ function App() {
       <GlobalStyle />
       <ThemeProvider theme={theme}>
         <Navbar/>
-        <SearchBar getTodayWeather={getTodayWeather} getForecast={getForecast}/>
-        {fourDaysForecast.length !==0 && <Display 
-          today={"TODAY - "}
-          temperature={todayWeatherState.temperature && Math.round(todayWeatherState.temperature) }
-          icon={todayWeatherState.icon && todayWeatherState.icon}
-          min={todayWeatherState.min && Math.round(todayWeatherState.min)}
-          max={todayWeatherState.max && Math.round(todayWeatherState.max)}
-         />}
-        <WeatherChart todayWeather={todayWeatherState.temperature} fourDaysForecast={fourDaysForecast} loading={loading}/>
-
-         {/* {
+        <MainInfo>
+          {todayWeatherState.city&&<CityName city={todayWeatherState.city} country={todayWeatherState.country}/>}
+          <SearchBar getTodayWeather={getTodayWeather} getForecast={getForecast}/>
+          {fourDaysForecast.length !==0 && <Display 
+            today={"TODAY - "}
+            temperature={todayWeatherState.temperature && Math.round(todayWeatherState.temperature) }
+            icon={todayWeatherState.icon && todayWeatherState.icon}
+            min={todayWeatherState.min && Math.round(todayWeatherState.min)}
+            max={todayWeatherState.max && Math.round(todayWeatherState.max)}
+          />}
+          {todayWeatherState.city && <WeatherChart todayWeather={todayWeatherState.temperature} fourDaysForecast={fourDaysForecast} loading={loading}/>}
+          {loading?"leading":<Map lat={-25.9653} lng={32.5892}/>}
+        </MainInfo>
+        
+         {
           fourDaysForecast.length !==0 &&
             fourDaysForecast.map((weatherForecast, index)=>{ 
               return (
-                <Display 
-                  key={index}
-                  temperature={Math.round(weatherForecast.temperature && weatherForecast.temperature) }
-                  icon={weatherForecast.icon}
-                  date={weatherForecast.date}
-                  min={Math.round(weatherForecast.min)}
-                  max={Math.round(weatherForecast.max)}
-                />
+                <div className="space-below">
+                  <Display 
+                    key={index}
+                    temperature={Math.round(weatherForecast.temperature && weatherForecast.temperature) }
+                    icon={weatherForecast.icon}
+                    date={weatherForecast.date}
+                    min={Math.round(weatherForecast.min)}
+                    max={Math.round(weatherForecast.max)}
+                  />
+                </div>
               )
             })
-        }  */}
+        } 
         
       </ThemeProvider>
     </Fragment>

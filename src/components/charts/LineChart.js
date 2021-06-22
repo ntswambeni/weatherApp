@@ -24,10 +24,9 @@ const LineChart = ({todayWeather, loading, fourDaysForecast}) => {
   // }
 
   const [chartInfo, setChartInfo] = useState({labels:[], data:[]});
-  const buildChartInfo = ()=>{
-    
-  }
+
   useEffect(()=>{
+
     if(!loading){
       const labels = [];
       const data = [];
@@ -84,7 +83,7 @@ const LineChart = ({todayWeather, loading, fourDaysForecast}) => {
         maintainAspectRatio: false,
       }
     )    
-  }, [loading])
+  }, [todayWeather, fourDaysForecast])
     
    
 

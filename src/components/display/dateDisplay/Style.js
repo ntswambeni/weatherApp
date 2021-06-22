@@ -7,7 +7,7 @@ const DateContainer = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background-color: rgba(0, 0, 0, 0.4) ;
+    background-color: rgba(0, 0, 0, 0.8) ;
     padding-left:1rem;
     padding-right: 1rem;
     text-align: center;
