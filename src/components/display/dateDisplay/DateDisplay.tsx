@@ -2,21 +2,21 @@ import React from 'react';
 import DateContainer from './Style';
 import moment from 'moment';
 
-//define types for day of the week and date of the month 
+//Props expected on DateDisplay component 
 interface DateTypes{
     date?: string;
     today?:string;
 }
+
 const DateDisplay: React.FC<DateTypes> = ({date, today=""}) => {
-    // get day of the week from weather api date
+    // extract day of the week from a specific date ie. Monday
     const getWeekDay = ()=>{
         const dayOfTheWeek = moment(date).format('dddd')
         return dayOfTheWeek;
     }
-
+    // extract day and month from a specific date ie. June 21st
     const getMonthDay = ()=>{
         const dayOfThemonth = moment(date).format('MMM Do')
-        
         return dayOfThemonth;
     }
     

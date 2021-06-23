@@ -7,14 +7,50 @@ import SearchBar from '../components/searchBar/SearchBar';
 import Display from '../components/display/Display';
 import WeatherChart from '../components/charts/WeatherChart';
 import Map from '../components/map/Map';
-import SpaceBelow from '../components/display/SpaceBelow';
 import Footer from '../components/footer/Footer';
 import PageContainer from './PageContainer';
 import Loading from '../components/layouts/Loading';
+import styled from 'styled-components';
 
 const Home: React.FC = () => {
     const weatherContext = useContext(WeatherContext);
     const { todaysWeather, fourDaysForecast, getCurrentsWeather, getWeatherForecast, loading, unit, changeUnit} = weatherContext;
+
+    /* responsiveness CSS */
+    const FlexComponents = styled.div`
+        @media only screen and (min-width:768px){
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+    `;
+
+    const ForecastSection = styled.div`
+        @media only screen and (min-width:768px){
+            display: flex;
+            flex-flow: row wrap;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+    `;
+
+    const CustomDisplay = styled(Display)`
+        margin-bottom: 15px;
+        @media only screen and (min-width:768px){
+            margin-bottom: 50px;
+            width: 45%;
+            min-width: 45%;
+            margin-right: 0;
+        }
+        @media only screen and (min-width:1024px){
+            margin-bottom: 50px;
+            width: 200px;
+            min-width: 200px;
+        }
+    `;
+    /*-- responsiveness CSS --*/
     
     return (
         <Fragment>
@@ -22,11 +58,11 @@ const Home: React.FC = () => {
                 {loading && <Loading/>}
                 <PageContainer>
                     <HomeMainContent>
-                        <div>
+                        <FlexComponents>
                             {todaysWeather.city&&<CityName city={todaysWeather.city} country={todaysWeather.country}/>}
                             <SearchBar getTodayWeather={getCurrentsWeather} getForecast={getWeatherForecast} unit={unit}/>
-                        </div>
-                        <div>
+                        </FlexComponents>
+                        <FlexComponents>
                             {fourDaysForecast.length !==0 && <Display 
                                 today={"TODAY - "}
                                 temperature={todaysWeather.temperature && Math.round(todaysWeather.temperature) }
@@ -36,16 +72,14 @@ const Home: React.FC = () => {
                                 unit={unit.IS}
                             />}
                             {todaysWeather.city && <WeatherChart todayWeather={todaysWeather.temperature} fourDaysForecast={fourDaysForecast} loading={loading}/>}
-                        </div>
-                        
-                        <Map lat={todaysWeather.lat} lng={todaysWeather.lng}/> 
+                        </FlexComponents>
                     </HomeMainContent>
-                    {
-                        fourDaysForecast.length !==0 &&
-                            fourDaysForecast.map((weatherForecast:any, index:any)=>{ 
-                            return (
-                                <SpaceBelow key={index}>
-                                    <Display 
+                    <ForecastSection>
+                        {
+                            fourDaysForecast.length !==0 &&
+                                fourDaysForecast.map((weatherForecast:any, index:any)=>{ 
+                                return (
+                                    <CustomDisplay key={index}
                                         temperature={Math.round(weatherForecast.temperature && weatherForecast.temperature) }
                                         icon={weatherForecast.icon}
                                         date={weatherForecast.date}
@@ -53,11 +87,12 @@ const Home: React.FC = () => {
                                         max={Math.round(weatherForecast.max)}
                                         unit={unit.IS}
                                     />
-                                </SpaceBelow>
-                            )
-                        })
-                    }
+                                )
+                            })
+                        }
+                    </ForecastSection>
                 </PageContainer>
+                <Map lat={todaysWeather.lat} lng={todaysWeather.lng}/> 
             <Footer/>
         </Fragment>
     )

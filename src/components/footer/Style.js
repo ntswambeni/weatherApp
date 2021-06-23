@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-// CSS for Navbar component
+// CSS for Footer component
 const FooterContainer = styled.footer`
     position: fixed;
     bottom: 0;

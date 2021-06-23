@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-// CSS for Navbar component
+// CSS for DateDisplay component
 const DateContainer = styled.div`
     height: 60px;
     width: 100%;
@@ -21,6 +21,9 @@ const DateContainer = styled.div`
     }
     P:last-child{
         font-size: 1rem;
+    }
+    @media only screen and (min-width:768px){
+       height: 95px;
     }
 `;
 

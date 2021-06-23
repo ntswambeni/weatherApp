@@ -23,6 +23,9 @@ const TemperatureContainer = styled.div`
     p:last-child{
         font-size: 0.8rem;
     }
+    @media only screen and (min-width:768px){
+       height: 95px;
+    }
 `;
 
 export default TemperatureContainer;

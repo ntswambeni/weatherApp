@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-// CSS for Navbar component
+// CSS for MapContainer component
 const MapContainer = styled.div`
     font-family: ${({theme})=>{
             return theme.fonts.primary;

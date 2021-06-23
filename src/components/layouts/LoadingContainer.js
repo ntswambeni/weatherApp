@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-// CSS for Navbar component
+// CSS for AlertContainer component
 const AlertContainer = styled.div`
     position: fixed;
 	bottom: 50px;

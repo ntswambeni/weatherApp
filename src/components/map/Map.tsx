@@ -3,7 +3,7 @@ import GoogleMapReact from 'google-map-react';
 import MapContainer from './Style';
 
 
-
+// lat=-25.9653, lng=32.5892 are default values for the center of the map
 const Map= ({lat=-25.9653, lng=32.5892}) => {
 
     const key = "AIzaSyDgeWyRR6rHBXI4KprMMk6BKIOELTLMZV4";

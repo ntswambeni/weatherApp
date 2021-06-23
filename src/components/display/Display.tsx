@@ -2,7 +2,8 @@ import React from 'react';
 import DisplayContainer from './Style';
 import TemperatureDisplay from './temperatureDisplay/TemperatureDisplay';
 import DateDisplay from './dateDisplay/DateDisplay';
-//define types for display components 
+
+//Props expected on Display component 
 interface DisplayTypes{
     date?: string;
     temperature: number;
@@ -11,10 +12,12 @@ interface DisplayTypes{
     max: number;
     today?:string;
     unit:string;
+    className?:any;
 }
-const Display: React.FC<DisplayTypes> = ({date, temperature, icon, min, max, today, unit}) => {  
+const Display: React.FC<DisplayTypes> = ({date, temperature, icon, min, max, today, unit, className, children }) => {  
     return (
-        <DisplayContainer>
+        <DisplayContainer className={className}>
+            {children}
             <TemperatureDisplay temperature={temperature} min={min} max={max} icon={icon} unit={unit && unit}/>
             <DateDisplay date={date} today={today}/>
         </DisplayContainer>

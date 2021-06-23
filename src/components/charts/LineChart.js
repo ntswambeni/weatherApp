@@ -2,13 +2,12 @@ import React , { useState, useEffect } from 'react';
 import { Line } from 'react-chartjs-2';
 import moment from 'moment';
 
-
-
 const LineChart = ({todayWeather, loading, fourDaysForecast}) => {
 
+  // variable to store labels and data to be showed on the chart
   const [chartInfo, setChartInfo] = useState({labels:[], data:[]});
 
-  // init chart data
+  // initialize chart data
   const [lineData, setLineData] = useState({
     labels: chartInfo.labels,
     datasets: [
@@ -36,6 +35,7 @@ const LineChart = ({todayWeather, loading, fourDaysForecast}) => {
     ]
   });
 
+  // useEffect hook to automaticaly refresh chart data when a city is chosen
   useEffect(()=>{
 
     if(!loading){
@@ -54,7 +54,7 @@ const LineChart = ({todayWeather, loading, fourDaysForecast}) => {
       
 
 
-
+    // data to be shown on chart
     setLineData({labels: chartInfo.labels,
     datasets: [
       {
@@ -80,16 +80,16 @@ const LineChart = ({todayWeather, loading, fourDaysForecast}) => {
       }
     ]})
 
+    // chart options
     setLineOptions(
       {
         title: {
             display: false,
-            text: "title",
-            fontSize: 14
+
         },
         legend: {
             display: false,
-            position: 'right'
+
         },
         maintainAspectRatio: false,
       }

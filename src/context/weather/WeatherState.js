@@ -78,7 +78,7 @@ const WeatherState = (props) => {
     }
   };
 
-  // change weather unit
+  // change weather unit to Celsius ou Fahrenheit
   const changeUnit = async (unit, city) => {
       dispatch({
         type: CHANGE_UNIT,
@@ -90,8 +90,10 @@ const WeatherState = (props) => {
       }
   };
 
+  // sets value of loading to true
   const setLoading = () => dispatch({ type: SET_LOADING });
 
+  // sets value of loading to false
   const setOffLoading = () => dispatch({ type: SET_OFF_LOADING });
 
   return (

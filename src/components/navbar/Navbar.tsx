@@ -2,6 +2,7 @@ import React from 'react';
 import {Switch} from '@material-ui/core';
 import NavbarContainer from './Style';
 
+//Props expected on Navbar component 
 interface NavbarProps{
     unit:{name: string, IS: string};
     city: string;
@@ -19,10 +20,11 @@ const Navbar: React.FC<NavbarProps> = ({unit, city, changeUnit}) => {
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         
         setState({ ...state, [event.target.name]: event.target.checked });
-        
+        // imperial stands for Fahrenheit in openweatherMap IS is the simbol to be used in the app
         if(state.unit === false){
             changeUnit({name:"imperial", IS:"F"}, city)
-            
+        
+        // metric stands for Celsius in openweatherMap
         }else{
             changeUnit({name:"metric", IS:"C"}, city)
         }

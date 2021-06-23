@@ -7,14 +7,14 @@ import {
 import * as Yup from 'yup';
 import SearchContainer from './Style';
 
-// value types of the component props
+//Props expected on SearchBar component 
 interface PropValues {
   getTodayWeather: any;
   getForecast: any;
   unit: {name:string, IS:string};
 }
 
-// value types of the form fields
+// value types expected in form input field
 interface FormValues {
   city: string;
 }

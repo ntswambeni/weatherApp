@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-// CSS for Navbar component
+// CSS for SearchBar component
 const SearchContainer = styled.div`
     font-family: ${({theme})=>{
             return theme.fonts.primary;
@@ -36,6 +36,9 @@ const SearchContainer = styled.div`
         font-weight: 600;
         letter-spacing: 1px;
     }
+    @media only screen and (min-width:768px){
+            width: 100%;
+        }
 `;
 
 export default SearchContainer;

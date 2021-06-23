@@ -10,14 +10,14 @@ const AlertState = (props) => {
 
   const [state, dispatch] = useReducer(alertReducer, initialState);
 
-  //set alert
+  //set alert message to be displayed as feedback for user
   const setAlert = (msg, timeout = 5000) => {
     const id = v4();
     dispatch({
       type: SET_ALERT,
       payload: { msg, id },
     });
-
+    // remove alert after a defined time
     setTimeout(() => {
       dispatch({ type: REMOVE_ALERT, payload: id });
     }, timeout);
